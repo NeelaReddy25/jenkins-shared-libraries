@@ -61,7 +61,7 @@ def call(Map configMap){
             stage('Deploy'){
                 steps{
                     script{
-                        releaseExists = sh(script: "helm list -A --short | grep -w ${component} || true", returnstdout: true).trim()
+                        releaseExists = sh(script: "helm list -A --short | grep -w ${component} || true", returnStdout: true).trim()
                         if(releaseExists.isEmpty()){
                             sh """
                                 aws eks update-kubeconfig --region ${region} --name ${project}-dev
@@ -86,7 +86,7 @@ def call(Map configMap){
             /* stage('verify Deployment'){
                 steps{
                     script{
-                        rollbackStatus = sh(script: "kubectl rollout status deployment/backend --timeout=1m || true", returnstdout: true).trim()
+                        rollbackStatus = sh(script: "kubectl rollout status deployment/backend --timeout=1m || true", returnStdout: true).trim()
                         if(rollbackStatus.contains('successfully rolled out')){
                             echo "Deployment is sucessfull"
                         }
@@ -101,7 +101,7 @@ def call(Map configMap){
                                     helm rollback backend -n ${project} 0
                                     sleep 60
                                 """
-                                rollbackStatus = sh(script: "kubectl rollout status deployment/backend -n expense --timeout=2m || true", returnstdout: true).trim()
+                                rollbackStatus = sh(script: "kubectl rollout status deployment/backend -n expense --timeout=2m || true", returnStdout: true).trim()
                                 if(rollbackStatus.contains("successfully rollout")){
                                     echo "Deployment is failed, Rollback is successfully"
                                 }
